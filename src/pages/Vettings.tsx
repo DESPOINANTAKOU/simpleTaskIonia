@@ -37,6 +37,7 @@ const Table: FC = () => {
           {data.length > 0 ? (
             data.map(vettings => (
               <tr key={vettings.vetid}>
+                <td>{vettings.vetid}</td>
                 <td>{vettings.CarriedOutStatus}</td>
                 <td>{vettings.comments}</td>
                 <td>{vettings.companyrepresentativename}</td>
@@ -49,7 +50,6 @@ const Table: FC = () => {
                 <td>{vettings.qid}</td>
                 <td>{vettings.vesselid}</td>
                 <td>{vettings.vesselname}</td>
-                <td>{vettings.vetid}</td>
               </tr>
             ))
           ) : (

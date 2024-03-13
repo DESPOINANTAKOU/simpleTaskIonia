@@ -1,14 +1,22 @@
 import React from 'react'
+import Link from '@mui/material/Link'
 
-interface VettingsProp {
+interface VettingProp {
   vetid: number
 }
 
-const Vetting: React.FC<VettingsProp> = ({ vetid }) => {
+const Vetting: React.FC<VettingProp> = ({ vetid }) => {
   return (
-    <div>
-      <p>Vet ID: {vetid}</p>
-    </div>
+    <>
+      <Link
+        component="a"
+        variant="body2"
+        onClick={() => {
+          console.info("I'm a button.")
+        }}>
+        vetting No {vetid}
+      </Link>{' '}
+    </>
   )
 }
 
