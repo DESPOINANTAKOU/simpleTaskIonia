@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import axiosInstance from '../actions/axiosInstance'
 
@@ -11,11 +11,13 @@ type TResponse = {
   token: string
 }
 
-const Login = () => {
+const LoginForm: React.FC = () => {
   const [formData, setFormData] = React.useState<TLogin>({
     username: '',
     password: ''
   })
+
+  const navigate = useNavigate()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -23,24 +25,40 @@ const Login = () => {
       [event.target.name]: event.target.value
     })
   }
+
+  const authenticateWithCredentials = async () => {
+    try {
+      const response = await axiosInstance.post<TResponse>(
+        'tokens',
+        {},
+        {
+          auth: {
+            username: formData.username,
+            password: formData.password
+          }
+        }
+      )
+      const myToken: string = response.data.token
+      localStorage.setItem('myToken', myToken)
+      if (myToken) {
+        console.log('Authentication successful. Data object:', myToken)
+      } else {
+        console.error('Authentication failed. Unexpected response:', response)
+      }
+      return true
+    } catch (error) {
+      console.error('Error during authentication:', error)
+    }
+    return false
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    localStorage.removeItem('loginData')
-    // try catch
-    const {
-      data: { token }
-    } = await axiosInstance.post<TResponse>(
-      'tokens',
-      {},
-      {
-        auth: {
-          username: formData.username,
-          password: formData.password
-        }
-      }
-    )
-    localStorage.setItem('loginData', token)
-    // history.push()
+    localStorage.removeItem('myToken')
+    const success = await authenticateWithCredentials()
+    if (success) {
+      navigate('/')
+    }
   }
 
   return (
@@ -52,7 +70,7 @@ const Login = () => {
           <input
             type="text"
             id="username"
-            name="first"
+            name="username"
             placeholder="Enter your Username"
             required
             value={formData.username}
@@ -77,4 +95,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginForm

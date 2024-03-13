@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import Table from '../pages/Table'
+import Vettings from '../pages/Vettings'
+import Vetting from '../pages/Vetting'
 import Login from '../pages/Login'
 
 const AppRouter = () => {
@@ -7,8 +8,9 @@ const AppRouter = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/Login" index element={<Login />} />
-        <Route path="/Table" index element={<Table />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/Vettings" element={<Vettings />} />
+        <Route path="/Vetting" element={<Vetting />} />
+        <Route path="*" element={<Navigate to="/Table" replace />} />
       </Routes>
     </BrowserRouter>
   )

@@ -1,32 +1,31 @@
-import axiosInstance from 'axios'
+import axiosInstance from './axiosInstance'
 
-export type TProduct = {
-  id: number
-  title: string
-  description: string
-  price: number
-  discountPercentage: number
-  rating: number
-  stock: number
-  brand: string
-  category: string
-  thumbnail: string
-  images: [string]
-  todo: string
+export interface TProduct {
+  CarriedOutStatus: number | null
+  comments: string | null
+  companyrepresentativename: string | null
+  inspectiontypeid: number | null
+  inspectorname: string | null
+  inspectorsirname: null
+  majorid: number | null
+  port: string | null
+  portid: number | null
+  qid: number | null
+  vesselid: number | null
+  vesselname: string | null
+  vetid: number | null
 }
 
 type TResponse = {
-  products: TProduct[]
+  data: TProduct[]
 }
 
 const fetchProducts = async () => {
-  try {
-    const response = await axiosInstance.get<TProduct>('https://dummyjson.com/todo/random')
-    return response.data
-  } catch (error) {
-    console.error('Error fetching data:', error)
-    throw error
+  const response = await axiosInstance.get<TResponse>('vettings')
+  if (Array.isArray(response.data?.data)) {
+    return response.data.data
   }
+  throw new Error('An error occurred')
 }
 
 export default fetchProducts
