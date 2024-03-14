@@ -20,7 +20,7 @@ type TResponse = {
   data: TProduct[]
 }
 
-const fetchProducts = async () => {
+const fetchVettings = async () => {
   const response = await axiosInstance.get<TResponse>('vettings')
   if (Array.isArray(response.data?.data)) {
     return response.data.data
@@ -28,4 +28,4 @@ const fetchProducts = async () => {
   throw new Error('An error occurred')
 }
 
-export default fetchProducts
+export default fetchVettings

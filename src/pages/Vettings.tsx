@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useState } from 'react'
-import fetchProducts, { TProduct } from '../actions/axiosCall'
-// import Vetting from './Vetting'
+import Link from '@mui/material/Link'
+import { NavLink } from 'react-router-dom'
+import fetchVettings, { TProduct } from '../actions/axiosCall'
 
 const Table: FC = () => {
   const [data, setData] = useState<TProduct[]>([])
 
   useEffect(() => {
-    fetchProducts()
+    fetchVettings()
       .then(vettings => {
         setData(vettings)
       })
@@ -37,6 +38,13 @@ const Table: FC = () => {
           {data.length > 0 ? (
             data.map(vettings => (
               <tr key={vettings.vetid}>
+                <Link
+                  component={NavLink}
+                  variant="button"
+                  underline="hover"
+                  color="inherit"
+                  to={`/Vettings/${vettings.vetid}`}
+                />
                 <td>{vettings.vetid}</td>
                 <td>{vettings.CarriedOutStatus}</td>
                 <td>{vettings.comments}</td>

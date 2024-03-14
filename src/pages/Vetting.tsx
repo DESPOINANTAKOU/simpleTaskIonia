@@ -1,23 +1,13 @@
 import React from 'react'
-import Link from '@mui/material/Link'
+import { Box } from '@mui/material'
+import { useParams } from 'react-router-dom'
 
-interface VettingProp {
-  vetid: number
-}
+interface VettingProp {}
 
-const Vetting: React.FC<VettingProp> = ({ vetid }) => {
-  return (
-    <>
-      <Link
-        component="a"
-        variant="body2"
-        onClick={() => {
-          console.info("I'm a button.")
-        }}>
-        vetting No {vetid}
-      </Link>{' '}
-    </>
-  )
+const Vetting: React.FC<VettingProp> = () => {
+  const { id } = useParams()
+
+  return <Box />
 }
 
 export default Vetting
