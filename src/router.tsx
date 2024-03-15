@@ -1,19 +1,18 @@
 import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import LoginForm from './pages/LoginForm'
-import Vetting from './pages/Vetting'
 import Vettings from './pages/Vettings'
+import Root from './pages/Root'
+import Vetting from './pages/Vetting'
 
-const router = createBrowserRouter(
+const Router = createBrowserRouter(
   createRoutesFromElements(
-    <>
-      <Route path="/" element={<LoginForm />} />
-      <Route path="/Login" element={<LoginForm />} />
-      <Route path="/Vettings" element={<Vettings />}>
-        <Route path="/:id" element={<Vetting />} />
-      </Route>
-      <Route path="*" element={<Navigate to="/Login" replace />} />
-    </>
+    <Route path="/" element={<Root />}>
+      <Route path="vettings" element={<Vettings />} />
+      <Route path="vettings/:id" element={<Vetting />} />
+      <Route path="Login" element={<LoginForm />} />
+      <Route path="*" element={<Navigate to="Login" replace />} />
+    </Route>
   )
 )
 
-export default router
+export default Router

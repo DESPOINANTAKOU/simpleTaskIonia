@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useState } from 'react'
 import Link from '@mui/material/Link'
 import { NavLink } from 'react-router-dom'
-import fetchVettings, { TProduct } from '../actions/axiosCall'
+import fetchVettings from '../actions/fetchVettings'
+import type TVetting from '../types/vetting'
 
 const Table: FC = () => {
-  const [data, setData] = useState<TProduct[]>([])
+  const [data, setData] = useState<TVetting[]>([])
+
 
   useEffect(() => {
     fetchVettings()
@@ -19,6 +21,7 @@ const Table: FC = () => {
       <table>
         <thead>
           <tr>
+            <th>Vetid</th>
             <th>CarriedOutStatus</th>
             <th>Comments</th>
             <th>Company Representativename</th>
@@ -31,21 +34,22 @@ const Table: FC = () => {
             <th>Qid</th>
             <th>Vesselid</th>
             <th>Vesselname</th>
-            <th>Vetid</th>
           </tr>
         </thead>
         <tbody>
           {data.length > 0 ? (
             data.map(vettings => (
               <tr key={vettings.vetid}>
-                <Link
-                  component={NavLink}
-                  variant="button"
-                  underline="hover"
-                  color="inherit"
-                  to={`/Vettings/${vettings.vetid}`}
-                />
-                <td>{vettings.vetid}</td>
+                <td>
+                  <Link
+                    component={NavLink}
+                    variant="button"
+                    underline="hover"
+                    color="inherit"
+                    to={`/vettings/${vettings.vetid}`}>
+                    {vettings.vetid}
+                  </Link>
+                </td>
                 <td>{vettings.CarriedOutStatus}</td>
                 <td>{vettings.comments}</td>
                 <td>{vettings.companyrepresentativename}</td>

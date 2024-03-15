@@ -1,6 +1,4 @@
-import axiosInstance from './axiosInstance'
-
-export interface TProduct {
+type TVetting = {
   CarriedOutStatus: number | null
   comments: string | null
   companyrepresentativename: string | null
@@ -16,16 +14,4 @@ export interface TProduct {
   vetid: number | null
 }
 
-type TResponse = {
-  data: TProduct[]
-}
-
-const fetchVettings = async () => {
-  const response = await axiosInstance.get<TResponse>('vettings')
-  if (Array.isArray(response.data?.data)) {
-    return response.data.data
-  }
-  throw new Error('An error occurred')
-}
-
-export default fetchVettings
+export default TVetting

@@ -1,15 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import axiosInstance from '../actions/axiosInstance'
-
-type TLogin = {
-  username: string
-  password: string
-}
-
-type TResponse = {
-  token: string
-}
+import { TLogin, TResponse } from '../types/loginForm'
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = React.useState<TLogin>({
@@ -57,7 +49,7 @@ const LoginForm: React.FC = () => {
     localStorage.removeItem('myToken')
     const success = await authenticateWithCredentials()
     if (success) {
-      navigate('/')
+      navigate('/Vettings')
     }
   }
 
