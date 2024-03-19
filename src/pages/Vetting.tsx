@@ -14,9 +14,6 @@ const Vetting: React.FC = () => {
     if (!id) return
     fetchVetting(parseInt(id))
       .then(vetting => {
-        if (!vetting) {
-          return null
-        }
         setVetting(vetting)
         console.log(vetting)
       })
