@@ -1,12 +1,11 @@
 import React, { FC, useEffect, useState } from 'react'
 import Link from '@mui/material/Link'
 import { NavLink } from 'react-router-dom'
-import fetchVettings from '../actions/fetchVettings'
-import type TVetting from '../types/vetting'
+import { fetchVettings } from '../actions/fetchFunctions'
+import type { TVetting } from '../types/vetting'
 
-const Table: FC = () => {
+const Vettings: FC = () => {
   const [data, setData] = useState<TVetting[]>([])
-
 
   useEffect(() => {
     fetchVettings()
@@ -75,4 +74,4 @@ const Table: FC = () => {
   )
 }
 
-export default Table
+export default Vettings

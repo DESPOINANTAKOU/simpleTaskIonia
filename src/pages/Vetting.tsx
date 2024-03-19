@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import fetchVetting from '../actions/fetchVetting'
-import type TVetting from '../types/vetting'
+import { fetchVetting } from '../actions/fetchFunctions'
+import type { TVetting } from '../types/vetting'
 
-interface VettingProp {}
-
-const Vetting: React.FC<VettingProp> = () => {
+const Vetting: React.FC = () => {
   const [vetting, setVetting] = useState<TVetting | null>(null)
 
   const { id } = useParams()
@@ -16,6 +14,9 @@ const Vetting: React.FC<VettingProp> = () => {
     if (!id) return
     fetchVetting(parseInt(id))
       .then(vetting => {
+        if (!vetting) {
+          return null
+        }
         setVetting(vetting)
         console.log(vetting)
       })

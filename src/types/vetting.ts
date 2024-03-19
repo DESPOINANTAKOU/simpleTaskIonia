@@ -1,4 +1,4 @@
-type TVetting = {
+export type TVetting = {
   CarriedOutStatus: number | null
   comments: string | null
   companyrepresentativename: string | null
@@ -13,5 +13,3 @@ type TVetting = {
   vesselname: string | null
   vetid: number | null
 }
-
-export default TVetting

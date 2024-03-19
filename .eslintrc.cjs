@@ -116,6 +116,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-nested-ternary': 'off',
     'no-console': 'off',
+    radix: 'off',
     '@typescript-eslint/no-misused-promises': [
       'warn',
       {
