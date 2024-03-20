@@ -3,7 +3,6 @@ import Link from '@mui/material/Link'
 import { NavLink } from 'react-router-dom'
 import { fetchVettings } from '../actions/fetchFunctions'
 import type { TVetting } from '../types/vetting'
-import QuestionnaireComponent from '../components/QuestionnaireComponent'
 
 const Vettings: FC = () => {
   const [data, setData] = useState<TVetting[]>([])
@@ -41,7 +40,7 @@ const Vettings: FC = () => {
             data.map(vettings => (
               <>
                 <tr key={vettings.vetid}>
-                  <td colSpan={13}>
+                  <td>
                     <Link
                       component={NavLink}
                       variant="button"
@@ -64,16 +63,11 @@ const Vettings: FC = () => {
                   <td>{vettings.vesselid}</td>
                   <td>{vettings.vesselname}</td>
                 </tr>
-                <tr>
-                  <td>
-                    <QuestionnaireComponent qid={vettings.qid} />
-                  </td>
-                </tr>
               </>
             ))
           ) : (
             <tr>
-              <td colSpan={13}>No data available</td>
+              <td>No data available</td>
             </tr>
           )}
         </tbody>

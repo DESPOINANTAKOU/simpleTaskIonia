@@ -24,8 +24,8 @@ export const fetchVettings = async () => {
   throw new Error('An error occurred')
 }
 
-export const fetchQuestionnaires = async qid => {
-  const response = await axiosInstance.get<TResponse<TQuestionnaire>>('/questionnaires')
+export const fetchQuestionnaires = async (qid: number) => {
+  const response = await axiosInstance.get<TResponse<TQuestionnaire>>(`/questionnaires/${qid}`)
   if (Array.isArray(response.data?.data)) {
     console.log(response.data.data)
     return response.data.data

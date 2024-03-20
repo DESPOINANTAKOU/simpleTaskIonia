@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import { fetchVetting } from '../actions/fetchFunctions'
+import { fetchVetting, fetchQuestionnaires } from '../actions/fetchFunctions'
 import type { TVetting } from '../types/vetting'
+import { TQuestionnaire } from '../types/questionnaire'
+import Questionnaire from '../components/Questionnaire'
 
 const Vetting: React.FC = () => {
   const [vetting, setVetting] = useState<TVetting | null>(null)
+  const [questionnaires, setQuestionnaires] = useState<TQuestionnaire[]>([])
 
   const { id } = useParams()
   console.log(id)
@@ -16,6 +19,11 @@ const Vetting: React.FC = () => {
       .then(vetting => {
         setVetting(vetting)
         console.log(vetting)
+        fetchQuestionnaires(vetting.qid)
+          .then(questionnaires => {
+            setQuestionnaires(questionnaires)
+          })
+          .catch(error => console.error('Error fetching questionnaires:', error))
       })
       .catch(error => console.error('Error fetching data:', error))
   }, [id])
@@ -66,6 +74,23 @@ const Vetting: React.FC = () => {
         <dt>Vesselname</dt>
         <dd>{vetting.vesselname}</dd>
       </dl>
+      <table>
+        <thead>
+          <tr>
+            <th>qid</th>
+            <th>Code</th>
+            <th>Text</th>
+            <th>GlobalDisplayIndex</th>
+            <th>ObjectType</th>
+            <th>objectid</th>
+          </tr>
+        </thead>
+        <tbody>
+          {questionnaires.map(q => (
+            <Questionnaire key={q.objectid} data={q} />
+          ))}
+        </tbody>
+      </table>
     </Box>
   )
 }

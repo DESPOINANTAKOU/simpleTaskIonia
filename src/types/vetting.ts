@@ -8,8 +8,8 @@ export type TVetting = {
   majorid: number | null
   port: string | null
   portid: number | null
-  qid: number | null
+  qid: number
   vesselid: number | null
   vesselname: string | null
-  vetid: number | null
+  vetid: number
 }

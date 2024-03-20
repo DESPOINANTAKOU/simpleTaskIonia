@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       '/api': { target: 'http://192.168.0.57:5000', changeOrigin: true }
     },
-    open: true
+    open: '/Login'
   },
   plugins: [react()]
 })
