@@ -32,3 +32,12 @@ export const fetchQuestionnaires = async (qid: number) => {
   }
   throw new Error('An error occurred')
 }
+
+export const fetchQuestionnaireAnswers = async (id: string) => {
+  const response = await axiosInstance.get<TResponse<TQuestionnaire>>(`/vettingdetails/${id}`)
+  if (Array.isArray(response.data?.data)) {
+    console.log(response.data.data)
+    return response.data.data
+  }
+  throw new Error('An error occurred')
+}

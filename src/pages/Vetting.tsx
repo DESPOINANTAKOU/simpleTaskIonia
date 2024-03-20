@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import { fetchVetting, fetchQuestionnaires } from '../actions/fetchFunctions'
+import {
+  fetchVetting,
+  fetchQuestionnaires,
+  fetchQuestionnaireAnswers
+} from '../actions/fetchFunctions'
 import type { TVetting } from '../types/vetting'
 import { TQuestionnaire } from '../types/questionnaire'
 import Questionnaire from '../components/Questionnaire'
+import { TVettingView } from '../types/vettingsView'
 
 const Vetting: React.FC = () => {
   const [vetting, setVetting] = useState<TVetting | null>(null)
   const [questionnaires, setQuestionnaires] = useState<TQuestionnaire[]>([])
+  const [answers, setAnswers] = useState<TQuestionnaire[]>([])
 
   const { id } = useParams()
   console.log(id)
@@ -22,15 +28,31 @@ const Vetting: React.FC = () => {
         fetchQuestionnaires(vetting.qid)
           .then(questionnaires => {
             setQuestionnaires(questionnaires)
+            console.log(questionnaires)
+            fetchQuestionnaireAnswers(id)
+              .then(answers => {
+                setAnswers(answers)
+              })
+              .catch(error => console.error('Error fetching questionnaire answers:', error))
           })
           .catch(error => console.error('Error fetching questionnaires:', error))
       })
-      .catch(error => console.error('Error fetching data:', error))
+      .catch(error => console.error('Error fetching vetting:', error))
   }, [id])
 
   if (vetting === null) {
     return null
   }
+
+  useEffect(() => {
+    const vettingView: TVettingView = {
+      ...vetting,
+      questions: questionnaires.map(q => ({
+        ...q,
+        answer: answers.find(a => a.objectid === q.objectid)?.answer
+      }))
+    }
+  }, [answers])
 
   return (
     <Box>

@@ -5,7 +5,7 @@ import { TLogin, TResponse } from '../types/projectTypes'
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = React.useState<TLogin>({
-    username: '',
+    username: 'Manager',
     password: ''
   })
 

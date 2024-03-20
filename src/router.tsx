@@ -10,7 +10,7 @@ const Router = createBrowserRouter(
       <Route path="vettings" element={<Vettings />} />
       <Route path="vettings/:id" element={<Vetting />} />
       <Route path="Login" element={<LoginForm />} />
-      <Route path="*" element={<Navigate to="Login" replace />} />
+      <Route path="*" element={<Navigate to="Vettings" replace />} />
     </Route>
   )
 )
