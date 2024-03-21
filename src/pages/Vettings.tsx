@@ -38,32 +38,30 @@ const Vettings: FC = () => {
         <tbody>
           {data.length > 0 ? (
             data.map(vettings => (
-              <>
-                <tr key={vettings.vetid}>
-                  <td>
-                    <Link
-                      component={NavLink}
-                      variant="button"
-                      underline="hover"
-                      color="inherit"
-                      to={`/vettings/${vettings.vetid}`}>
-                      {vettings.vetid}
-                    </Link>
-                  </td>
-                  <td>{vettings.CarriedOutStatus}</td>
-                  <td>{vettings.comments}</td>
-                  <td>{vettings.companyrepresentativename}</td>
-                  <td>{vettings.inspectiontypeid}</td>
-                  <td>{vettings.inspectorname}</td>
-                  <td>{vettings.inspectorsirname}</td>
-                  <td>{vettings.majorid}</td>
-                  <td>{vettings.port}</td>
-                  <td>{vettings.portid}</td>
-                  <td>{vettings.qid}</td>
-                  <td>{vettings.vesselid}</td>
-                  <td>{vettings.vesselname}</td>
-                </tr>
-              </>
+              <tr key={vettings.vetid}>
+                <td>
+                  <Link
+                    component={NavLink}
+                    variant="button"
+                    underline="hover"
+                    color="inherit"
+                    to={`/vettings/${vettings.vetid}`}>
+                    {vettings.vetid}
+                  </Link>
+                </td>
+                <td>{vettings.CarriedOutStatus}</td>
+                <td>{vettings.comments}</td>
+                <td>{vettings.companyrepresentativename}</td>
+                <td>{vettings.inspectiontypeid}</td>
+                <td>{vettings.inspectorname}</td>
+                <td>{vettings.inspectorsirname}</td>
+                <td>{vettings.majorid}</td>
+                <td>{vettings.port}</td>
+                <td>{vettings.portid}</td>
+                <td>{vettings.qid}</td>
+                <td>{vettings.vesselid}</td>
+                <td>{vettings.vesselname}</td>
+              </tr>
             ))
           ) : (
             <tr>

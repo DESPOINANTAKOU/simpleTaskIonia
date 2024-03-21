@@ -13,5 +13,3 @@ export type TVetting = {
   vesselname: string | null
   vetid: number
 }
-
-

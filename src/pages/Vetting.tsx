@@ -1,58 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import {
-  fetchVetting,
-  fetchQuestionnaires,
-  fetchQuestionnaireAnswers
-} from '../actions/fetchFunctions'
-import type { TVetting } from '../types/vetting'
-import { TQuestionnaire } from '../types/questionnaire'
-import Questionnaire from '../components/Questionnaire'
+import { fetchData } from '../actions/fetchFunctions'
 import { TVettingView } from '../types/vettingsView'
+import createView from '../mappers/vettingView'
 
 const Vetting: React.FC = () => {
-  const [vetting, setVetting] = useState<TVetting | null>(null)
-  const [questionnaires, setQuestionnaires] = useState<TQuestionnaire[]>([])
-  const [answers, setAnswers] = useState<TQuestionnaire[]>([])
-
   const { id } = useParams()
-  console.log(id)
+  const [data, setData] = useState<TVettingView | null>(null)
 
   useEffect(() => {
     if (!id) return
-    fetchVetting(parseInt(id))
-      .then(vetting => {
-        setVetting(vetting)
-        console.log(vetting)
-        fetchQuestionnaires(vetting.qid)
-          .then(questionnaires => {
-            setQuestionnaires(questionnaires)
-            console.log(questionnaires)
-            fetchQuestionnaireAnswers(id)
-              .then(answers => {
-                setAnswers(answers)
-              })
-              .catch(error => console.error('Error fetching questionnaire answers:', error))
-          })
-          .catch(error => console.error('Error fetching questionnaires:', error))
-      })
+    fetchData(parseInt(id))
+      .then(data => setData(createView(data)))
       .catch(error => console.error('Error fetching vetting:', error))
   }, [id])
 
-  if (vetting === null) {
+  if (data === null) {
     return null
   }
 
-  useEffect(() => {
-    const vettingView: TVettingView = {
-      ...vetting,
-      questions: questionnaires.map(q => ({
-        ...q,
-        answer: answers.find(a => a.objectid === q.objectid)?.answer
-      }))
-    }
-  }, [answers])
+  const { questions, ...vetting } = data
 
   return (
     <Box>
@@ -102,14 +70,23 @@ const Vetting: React.FC = () => {
             <th>qid</th>
             <th>Code</th>
             <th>Text</th>
+            <th>Answer</th>
             <th>GlobalDisplayIndex</th>
             <th>ObjectType</th>
             <th>objectid</th>
           </tr>
         </thead>
         <tbody>
-          {questionnaires.map(q => (
-            <Questionnaire key={q.objectid} data={q} />
+          {questions.map(q => (
+            <tr key={q.objectid}>
+              <td>{q.qid}</td>
+              <td>{q.Code}</td>
+              <td>{q.text}</td>
+              <td>{q.answer}</td>
+              <td>{q.GlobalDisplayIndex}</td>
+              <td>{q.ObjectType}</td>
+              <td>{q.objectid}</td>
+            </tr>
           ))}
         </tbody>
       </table>

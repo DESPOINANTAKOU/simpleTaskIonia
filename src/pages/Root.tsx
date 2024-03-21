@@ -1,7 +1,5 @@
 import React, { FC } from 'react'
 import { Outlet } from 'react-router'
-import LoginForm from './LoginForm'
-import Root from './Root'
 import { NavLink } from 'react-router-dom'
 
 const Layout: FC = () => {
@@ -13,10 +11,10 @@ const Layout: FC = () => {
       <nav>
         <ul>
           <li>
-          <NavLink to="/vettings">Home</NavLink>
+            <NavLink to="/vettings">Home</NavLink>
           </li>
           <li>
-          <NavLink to="/login">Login</NavLink>
+            <NavLink to="/login">Login</NavLink>
           </li>
         </ul>
       </nav>
@@ -25,7 +23,7 @@ const Layout: FC = () => {
       </main>
 
       <footer>
-        <p></p>
+        <p />
       </footer>
     </div>
   )

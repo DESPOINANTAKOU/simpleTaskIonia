@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import axiosInstance from '../actions/axiosInstance'
-import { TLogin, TResponse } from '../types/projectTypes'
+import { TLogin, TResponse } from '../types/login'
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = React.useState<TLogin>({
