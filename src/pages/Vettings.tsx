@@ -1,22 +1,39 @@
 import React, { FC, useEffect, useState } from 'react'
 import Link from '@mui/material/Link'
 import { NavLink } from 'react-router-dom'
+import { Box } from '@mui/material'
 import { fetchVettings } from '../actions/fetchFunctions'
 import type { TVetting } from '../types/vetting'
 
+const sortVettings = (vettings: TVetting[], orderDirection: string) => {
+  const sortedVettings = [...vettings]
+  sortedVettings.sort((a, b) => (orderDirection === 'desc' ? b.vetid - a.vetid : a.vetid - b.vetid))
+  return sortedVettings
+}
+
 const Vettings: FC = () => {
-  const [data, setData] = useState<TVetting[]>([])
+  const [vettings, setVettings] = useState<TVetting[]>([])
+
+  const [orderDirection, setOrderDirection] = useState<string>('desc')
 
   useEffect(() => {
     fetchVettings()
       .then(vettings => {
-        setData(vettings)
+        setVettings(sortVettings(vettings, orderDirection))
       })
       .catch(error => console.error('Error fetching data:', error))
   }, [])
 
+  const handleSortChange = () => {
+    setOrderDirection(orderDirection === 'desc' ? 'asc' : 'desc')
+  }
+
+  useEffect(() => {
+    setVettings(sortVettings(vettings, orderDirection))
+  }, [orderDirection])
+
   return (
-    <div>
+    <Box>
       <table>
         <thead>
           <tr>
@@ -36,33 +53,35 @@ const Vettings: FC = () => {
           </tr>
         </thead>
         <tbody>
-          {data.length > 0 ? (
-            data.map(vettings => (
-              <tr key={vettings.vetid}>
-                <td>
-                  <Link
-                    component={NavLink}
-                    variant="button"
-                    underline="hover"
-                    color="inherit"
-                    to={`/vettings/${vettings.vetid}`}>
-                    {vettings.vetid}
-                  </Link>
-                </td>
-                <td>{vettings.CarriedOutStatus}</td>
-                <td>{vettings.comments}</td>
-                <td>{vettings.companyrepresentativename}</td>
-                <td>{vettings.inspectiontypeid}</td>
-                <td>{vettings.inspectorname}</td>
-                <td>{vettings.inspectorsirname}</td>
-                <td>{vettings.majorid}</td>
-                <td>{vettings.port}</td>
-                <td>{vettings.portid}</td>
-                <td>{vettings.qid}</td>
-                <td>{vettings.vesselid}</td>
-                <td>{vettings.vesselname}</td>
-              </tr>
-            ))
+          {vettings.length > 0 ? (
+            vettings.map(vetting => {
+              return (
+                <tr key={vetting.vetid}>
+                  <td>
+                    <Link
+                      component={NavLink}
+                      variant="button"
+                      underline="hover"
+                      color="inherit"
+                      to={`/vettings/${vetting.vetid}`}>
+                      {vetting.vetid}
+                    </Link>
+                  </td>
+                  <td>{vetting.CarriedOutStatus}</td>
+                  <td>{vetting.comments}</td>
+                  <td>{vetting.companyrepresentativename}</td>
+                  <td>{vetting.inspectiontypeid}</td>
+                  <td>{vetting.inspectorname}</td>
+                  <td>{vetting.inspectorsirname}</td>
+                  <td>{vetting.majorid}</td>
+                  <td>{vetting.port}</td>
+                  <td>{vetting.portid}</td>
+                  <td>{vetting.qid}</td>
+                  <td>{vetting.vesselid}</td>
+                  <td>{vetting.vesselname}</td>
+                </tr>
+              )
+            })
           ) : (
             <tr>
               <td>No data available</td>
@@ -70,7 +89,7 @@ const Vettings: FC = () => {
           )}
         </tbody>
       </table>
-    </div>
+    </Box>
   )
 }
 

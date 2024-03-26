@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { Outlet } from 'react-router'
 import { NavLink } from 'react-router-dom'
+import LogoutButton from '../components/LogoutButton'
 
 const Layout: FC = () => {
   return (
@@ -11,10 +12,10 @@ const Layout: FC = () => {
       <nav>
         <ul>
           <li>
-            <NavLink to="/vettings">Home</NavLink>
+            <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <NavLink to="/login">Login</NavLink>
+            <LogoutButton />
           </li>
         </ul>
       </nav>

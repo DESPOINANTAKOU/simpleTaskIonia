@@ -36,7 +36,7 @@ export const fetchQuestionnaires = async (qid: number) => {
 }
 
 export const fetchVettingDetails = async (vetid: number) => {
-  const response = await axiosInstance.get<TResponse<TVettingDetail>>(`/vettingdetails/${vetid}`)
+  const response = await axiosInstance.get<TResponse<TVettingDetail>>(`/vettingdatails/${vetid}`)
   if (Array.isArray(response.data?.data)) {
     console.log(response.data.data)
     return response.data.data

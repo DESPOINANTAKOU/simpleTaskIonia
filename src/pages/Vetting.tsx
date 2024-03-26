@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { fetchData } from '../actions/fetchFunctions'
 import { TVettingView } from '../types/vettingsView'
 import createView from '../mappers/vettingView'
+import LogoutButton from '../components/LogoutButton'
 
 const Vetting: React.FC = () => {
   const { id } = useParams()
@@ -90,6 +91,7 @@ const Vetting: React.FC = () => {
           ))}
         </tbody>
       </table>
+      <LogoutButton />
     </Box>
   )
 }
