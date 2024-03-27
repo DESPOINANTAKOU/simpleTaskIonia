@@ -4,8 +4,13 @@ import { TQuestionnaire } from '../types/questionnaire'
 import { TVettingDetail } from '../types/vettingDetail'
 import { TData } from '../types/data'
 
-type TResponse<Τ> = {
-  data: Τ[]
+type TResponse<T> = {
+  data: T[]
+}
+
+type TPaginatedData<T> = TResponse<T> & {
+  // T stands for the type of data being paginated
+  count: number
 }
 
 export const fetchVetting = async (id: number) => {
@@ -17,11 +22,14 @@ export const fetchVetting = async (id: number) => {
   throw new Error('An error occurred')
 }
 
-export const fetchVettings = async () => {
-  const response = await axiosInstance.get<TResponse<TVetting>>('/vettings')
+export const fetchVettings = async (page = 1) => {
+  const params = new URLSearchParams()
+  params.set('page', page.toString())
+  const response = await axiosInstance.get<TPaginatedData<TVetting>>(
+    '/vettings_paginated?' + params.toString()
+  )
   if (Array.isArray(response.data?.data)) {
-    console.log(response.data.data)
-    return response.data.data
+    return response.data
   }
   throw new Error('An error occurred')
 }

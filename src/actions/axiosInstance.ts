@@ -10,6 +10,16 @@ const axiosInstance = axios.create({
   }
 })
 
+axiosInstance.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response.status === 401) {
+      localStorage.removeItem('myToken')
+      window.location.href = '/login'
+    }
+  }
+)
+
 axiosInstance.interceptors.request.use(config => {
   const token = localStorage.getItem('myToken')
   if (token) {
