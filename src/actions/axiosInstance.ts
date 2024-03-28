@@ -10,6 +10,14 @@ const axiosInstance = axios.create({
   }
 })
 
+axiosInstance.interceptors.request.use(config => {
+  const token = localStorage.getItem('myToken')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
 axiosInstance.interceptors.response.use(
   response => response,
   error => {
@@ -19,13 +27,4 @@ axiosInstance.interceptors.response.use(
     }
   }
 )
-
-axiosInstance.interceptors.request.use(config => {
-  const token = localStorage.getItem('myToken')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
-
 export default axiosInstance

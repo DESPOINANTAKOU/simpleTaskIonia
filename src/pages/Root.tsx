@@ -3,18 +3,24 @@ import { Outlet } from 'react-router'
 import { NavLink } from 'react-router-dom'
 import LogoutButton from '../components/LogoutButton'
 
+const handleLogout = () => {
+  // Logic to handle logout
+}
+
 const Layout: FC = () => {
   return (
     <div>
       <header>
-        <h1>Ionian Management App</h1>
+        <h1 className="text-center">Ionian Management App</h1>
       </header>
       <nav>
-        <ul>
-          <li>
-            <NavLink to="/">Home</NavLink>
+        <ul className="nav justify-content-center">
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/">
+              Home
+            </NavLink>
           </li>
-          <li>
+          <li className="nav-item">
             <LogoutButton />
           </li>
         </ul>
@@ -22,7 +28,6 @@ const Layout: FC = () => {
       <main>
         <Outlet />
       </main>
-
       <footer>
         <p />
       </footer>

@@ -11,8 +11,8 @@ const LogoutButton = () => {
     navigate('/login')
   }
   return (
-    <NavLink onClick={handleClick} to="/login">
-      Log Out
+    <NavLink className="nav-link" onClick={handleClick} to="/login">
+      Log out
     </NavLink>
   )
 }

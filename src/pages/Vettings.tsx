@@ -2,47 +2,32 @@ import React, { FC, useEffect, useState } from 'react'
 import Link from '@mui/material/Link'
 import { NavLink } from 'react-router-dom'
 import { Box } from '@mui/material'
+import ReactPaginate from 'react-paginate'
 import { fetchVettings } from '../actions/fetchFunctions'
 import type { TVetting } from '../types/vetting'
-import ReactPaginate from 'react-paginate'
+import sortVettings from '../helpers/sortVettings'
 
-const sortVettings = (vettings: TVetting[], orderDirection: string) => {
-  const sortedVettings = [...vettings]
-  sortedVettings.sort((a, b) => (orderDirection === 'desc' ? b.vetid - a.vetid : a.vetid - b.vetid))
-  return sortedVettings
-}
-type TPagination = {
-  page: number
-  rowsPerPage: number
-  totalRows: number
-}
 const Vettings: FC = () => {
   const [vettings, setVettings] = useState<TVetting[]>([])
-
   const [orderDirection, setOrderDirection] = useState<'desc' | 'asc'>('desc')
-
   const [page, setPage] = useState<number>(1)
+  const [totalPages, setTotalPages] = useState<number>(0)
   const [rowsPerPage, setRowsPerPage] = useState<number>(50)
   const [totalRows, setTotalRows] = useState<number>(0)
-  const [totalPages, setTotalPages] = useState<number>(0)
 
   const handleSortChange = () => {
     setOrderDirection(orderDirection === 'desc' ? 'asc' : 'desc')
   }
 
-  type PageClickEvent = {
-    selected: number
-  }
-
   const handlePageClick = (selectedItem: { selected: number }) => {
-    setPage(selectedItem.selected)
+    setPage(selectedItem.selected + 1)
   }
 
   useEffect(() => {
     fetchVettings(page)
       .then(({ count, data: vettings }) => {
-        setVettings(sortVettings(vettings, orderDirection))
         setTotalRows(count)
+        setVettings(sortVettings(vettings, orderDirection))
       })
       .catch(error => console.error('Error fetching data:', error))
   }, [page])
@@ -55,6 +40,11 @@ const Vettings: FC = () => {
     const totalPages = Math.ceil(totalRows / rowsPerPage)
     setTotalPages(totalPages)
   }, [rowsPerPage, totalRows])
+
+  useEffect(() => {
+    document.querySelectorAll('html,body').forEach(e => e.scroll({ top: 0, behavior: 'instant' }))
+  }, [vettings])
+
   return (
     <Box>
       <table className="table">
@@ -112,25 +102,27 @@ const Vettings: FC = () => {
           )}
         </tbody>
       </table>
-      <ReactPaginate
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        containerClassName="pagination justify-content-center"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        activeClassName="active"
-        breakLabel="..."
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        pageCount={totalPages}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null}
-      />
+      <div className="sticky-bottom bg-white p-3">
+        <ReactPaginate
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination justify-content-center"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          activeClassName="active"
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={totalPages}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+        />{' '}
+      </div>
     </Box>
   )
 }
